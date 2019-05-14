@@ -1,2 +1,2 @@
 # Artineer
-Home page of club 'Artineer'
+Homepage of Wonkwang University club
