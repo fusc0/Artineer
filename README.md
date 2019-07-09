@@ -5,4 +5,5 @@ This is the homepage of the Wonkwang University club 'Artineer' that fusc0 found
 
 fusc0, the president of the club, has developed a site for club members to communicate with each other.
 
+Actually, this url address is in service.
 http://artineer.net
