@@ -23,13 +23,13 @@
           <a href="./index.php" class="header_logo">ARTINEER</a>
         </h1>
       </div>
-      <?
+      <?php
       include ("./db_connect.php");
       $connect = dbconn();
       $member = member();
 
-      $id = $_GET[id];
-      $no = $_GET[no];
+      $id = $_GET['id'];
+      $no = $_GET['no'];
       ?>
       <!-- container -->
       <div id="container">
@@ -39,22 +39,22 @@
             <div class="join_form">
               <fieldset class="join_form">
                 <form action='./modify_post.php' name='modify' method='post' enctype="multipart/form-data">
-                  <?
+                  <?php
                   $query = "select * from member where id = '$id'";
-                  mysql_query("set names utf8");
-                  $result = mysql_query($query, $connect);
-                  $data = mysql_fetch_array($result);
+                  mysqli_query($connect, "set names utf8");
+                  $result = mysqli_query($connect, $query);
+                  $data = mysqli_fetch_array($result);
                   ?>
-                  <input type="hidden" name="no" value="<?=$member[no]?>">
+                  <input type="hidden" name="no" value="<?=$member['no']?>">
                   <div class="row_group">
-                    <input class="join_row" type='text' name='id' size='10' maxlength="20" placeholder="아이디" disabled value='<?=$member[id]?>'>
+                    <input class="join_row" type='text' name='id' size='10' maxlength="20" placeholder="아이디" disabled value='<?=$member['id']?>'>
                     <input class="join_row" type='password' name='pw_1' size='10' placeholder="비밀번호">
                     <input class="join_row" type='password' name='pw_2' size='10' placeholder="비밀번호 확인">
                   </div>
                   <div class="row_group">
-                    <input class="join_row" type='text' name='name' size='5' placeholder="이름" disabled value='<?=$member[name]?>'>
+                    <input class="join_row" type='text' name='name' size='5' placeholder="이름" disabled value='<?=$member['name']?>'>
                     <div class="join_row join_sex">
-                      <?if($member[sex] == 'male') {?>
+                      <?php if($member['sex'] == 'male') {?>
                       <span class="sex">
                         <span class="jender jender_line" id="man_checked">
                           <input type='radio' id="man" name='sex' value="male" disabled checked>
@@ -65,8 +65,8 @@
                           <label for="woman" id="woman_lb">여자</label>
                         </span>
                       </span>
-                      <?}?>
-                      <?if($member[sex] == 'female') {?>
+                      <?php }?>
+                      <?php if($member['sex'] == 'female') {?>
                       <span class="sex">
                         <span class="jender jender_line" id="man_checked">
                           <input type='radio' id="man" name='sex' value="male" disabled>
@@ -77,17 +77,17 @@
                           <label for="woman" id="woman_lb">여자</label>
                         </span>
                       </span>
-                      <?}?>
+                      <?php }?>
                     </div>
-                    <?
-                    $email = explode("@", $member[email]);
+                    <?php
+                    $email = explode("@", $member['email']);
                     $email_1 = $email[0];
                     $email_2 = $email[1];
-                    $tel = explode("-", $member[tel]);
+                    $tel = explode("-", $member['tel']);
                     $tel_1 = $tel[0];
                     $tel_2 = $tel[1];
                     $tel_3 = $tel[2];
-                    $birth = explode("/", $member[birth]);
+                    $birth = explode("/", $member['birth']);
                     $birth_1 = $birth[0];
                     $birth_2 = $birth[1];
                     $birth_3 = $birth[2];
@@ -263,8 +263,8 @@
                         </div>
                       </div>
                     </div>
-                    <input class="join_row" type='text' name='addr' size='15' placeholder="주소" value='<?=$member[addr]?>'>
-                    <input class="join_row" type="text" name="year" size="1" placeholder="기수 (숫자만 입력)" disabled value='<?=$member[year]?>'>
+                    <input class="join_row" type='text' name='addr' size='15' placeholder="주소" value='<?=$member['addr']?>'>
+                    <input class="join_row" type="text" name="year" size="1" placeholder="기수 (숫자만 입력)" disabled value='<?=$member['year']?>'>
                   </div>
 
                   <div class="register_btn">

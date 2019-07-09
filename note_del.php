@@ -1,17 +1,18 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-$no = $_GET[no];
+$no = $_GET['no'];
 
 $sql = "select * from note where no='$no'";
-$result = mysql_query($sql, $connect);
-$data = mysql_fetch_array($result);
+$result = mysqli_query($connect, $sql);
+$data = mysqli_fetch_array($result);
 
 $query = "delete from note where no='$no'";
-mysql_query($query, $connect);
+mysqli_query($connect, $query);
 ?>
 
 <script>

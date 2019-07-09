@@ -1,4 +1,4 @@
-<?ob_start();?>
+<?php ob_start();?>
 <!DOCTYPE html>
 <html>
 
@@ -16,7 +16,7 @@
   </head>
 
   <body>
-    <?
+    <?php
     include ("./db_connect.php");
     $connect = dbconn();
     $member = member();
@@ -32,7 +32,7 @@
 
           <!-- header fixed user (login, register) -->
           <div class="header_fixed_user">
-              <?if(!$member[id]) {?>
+              <?php if(!$member['id']) {?>
                 <div class="member"><a style="cursor:pointer;">로그인하세요</a></div>
               <div class="member_bubble">
                 <li class="member_sub"><a style="cursor:pointer;" id="login_toggle">로그인</a></li>
@@ -49,14 +49,14 @@
                 <li class="member_sub"><a href="./register.php">회원가입</a></li>
               </div>
               <div class="tail"></div>
-                    <?} else {?>
-                    <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                    <?php } else {?>
+                    <div class="member"><a style="cursor:pointer;"><?php echo $member['name']."(".$member['year']."기)";?></a></div>
                     <div class="member_bubble">
                     <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                    <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                    <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                   </div>
                   <div class="tail"></div>
-                    <?}?>
+                    <?php }?>
           </div>
 
           <!-- header logo (ARTINEER) -->
@@ -117,11 +117,11 @@
       </div>
 
       <div id="container">
-        <?
-        $_page = $_GET[_page];
+        <?php
+        $_page = $_GET['_page'];
 
-        $search_text = $_GET[search_text];
-        $search_mode = $_GET[search_mode];
+        $search_text = $_GET['search_text'];
+        $search_mode = $_GET['search_mode'];
 
         $view_total = 9;
         if(!$_page)$_page = 1;
@@ -139,9 +139,9 @@
         }
 
         $query = "select count(*) from gallery where $where";
-        mysql_query("set names utf8");
-        $result = mysql_query($query, $connect);
-        $temp = mysql_fetch_array($result);
+        mysqli_query($connect, "set names utf8");
+        $result = mysqli_query($connect, $query);
+        $temp = mysqli_fetch_array($result);
         $totals = $temp[0];
         ?>
         <div class="container_position">
@@ -153,33 +153,33 @@
           </div>
           <!--갤러리 시작-->
           <div class="gallery">
-            <?
+            <?php
             $query = "select * from gallery where $where order by no desc limit $page, $view_total";
-            $result = mysql_query($query, $connect);
-            while($data = mysql_fetch_array($result)) {
+            $result = mysqli_query($connect, $query);
+            while($data = mysqli_fetch_array($result)) {
             ?>
             <!--1개 사진-->
             <div class="gallery-item">
-              <a href="./view.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery">
+              <a href="./view.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery">
               <div class="gallery-item-image">
                 <div class="gallery-item-image-control">
-                  <?if(!$data[file]) {?>
-                    <a href="./view.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery"><img src="./image/no_image.jpg"></a>
-                  <?} else {
-                    $files = explode(",", $data[file]);
+                  <?php if(!$data['file']) {?>
+                    <a href="./view.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery"><img src="./image/no_image.jpg"></a>
+                  <?php } else {
+                    $files = explode(",", $data['file']);
                     ?>
-                    <a href="./view.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery"><img src="./data/<?=$files[0]?>">
+                    <a href="./view.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery"><img src="./data/<?=$files[0]?>">
                     </a>
-                  <?}?>
+                  <?php }?>
                 </div>
               </div>
               <div class="gallery-item-description">
                 <table class="sub_news" cellspacing="0">
                   <tr>
                     <th>제목</th>
-                    <td colspan="3"><a href="./view.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery"><?=mb_substr($data[subject], 0, 11, 'UTF-8');?> <font color="#20cbd3">(<?=$data[comment]?>)</font>
-                      <?
-                        $date1 = str_replace('-','',$data[regdate]);
+                    <td colspan="3"><a href="./view.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery"><?=mb_substr($data['subject'], 0, 11, 'UTF-8');?> <font color="#20cbd3">(<?=$data['comment']?>)</font>
+                      <?php
+                        $date1 = str_replace('-','',$data['regdate']);
                         $date2 = str_replace(' ','',$date1);
                         $date3 = str_replace('(','',$date2);
                         $date4 = str_replace(':','',$date3);
@@ -196,23 +196,23 @@
                   </tr>
                   <tr>
                     <th >글쓴이</th>
-                    <td class="name"><?=$data[name]?></td>
+                    <td class="name"><?=$data['name']?></td>
                     <th>조회수</th>
-                    <td><?=$data[hit]?></td>
+                    <td><?=$data['hit']?></td>
                   </tr>
                 </table>
               </div>
               </a>
             </div>
-            <?}?>
+            <?php }?>
           </div>
-          <span class="list_page"><?include ('./list_page.php');?></span>
-          <?
-          mysql_query("set names utf8");
-          $result = mysql_query($query, $connect);
-          $data = mysql_fetch_array($result);
+          <span class="list_page"><?php include ('./list_page.php');?></span>
+          <?php
+          mysqli_query($connect, "set names utf8");
+          $result = mysqli_query($connect, $query);
+          $data = mysqli_fetch_array($result);
           ?>
-          <button class="table_write_btn" type="button" onclick="location.href='./write.php?no=<?=$data[no]+1?>&id=<?=$member[id]?>&bbsname=gallery'">글쓰기</button>
+          <button class="table_write_btn" type="button" onclick="location.href='./write.php?no=<?=$data['no']+1?>&id=<?=$member['id']?>&bbsname=gallery'">글쓰기</button>
           <table class="search_table">
             <form action="<?=$PHP_SELE?>">
             <tr>

@@ -13,29 +13,29 @@
     <link rel="shortcut icon" href="./favicon.ico">
   </head>
   <body>
-    <?
+    <?php
     include ("./db_connect.php");
     $connect = dbconn();
     $member = member();
 
-    $id = $_GET[id];
-    $no = $_GET[no];
+    $id = $_GET['id'];
+    $no = $_GET['no'];
 
-    $bbsname = $_GET[bbsname];
+    $bbsname = $_GET['bbsname'];
 
     if($bbsname == 'notice') {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
-      else if(!$member[level] == 0)Error("관리자만 이용할 수 있습니다.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
+      else if(!$member['level'] == 0)Error("관리자만 이용할 수 있습니다.");
     }
     else if($bbsname == 'minutes') {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
-      else if(!$member[level] == 0)Error("관리자만 이용할 수 있습니다.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
+      else if(!$member['level'] == 0)Error("관리자만 이용할 수 있습니다.");
     }
     else {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
     }
 
-    if($member[id] != $id) Error("권한이 없습니다.");
+    if($member['id'] != $id) Error("권한이 없습니다.");
     ?>
     <div class="wrap">
 
@@ -49,7 +49,7 @@
 
           <!-- header fixed user (login, register) -->
           <div class="header_fixed_user">
-              <?if(!$member[id]) {?>
+              <?php if(!$member['id']) {?>
                 <div class="member"><a style="cursor: pointer;">로그인하세요</a></div>
               <div class="member_bubble">
                 <li class="member_sub"><a style="cursor: pointer;" id="login_toggle">로그인</a></li>
@@ -66,14 +66,14 @@
                 <li class="member_sub"><a href="./register.php">회원가입</a></li>
               </div>
               <div class="tail"></div>
-                    <?} else {?>
-                    <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                    <?php } else {?>
+                    <div class="member"><a style="cursor:pointer;"><?php echo $member['name']."(".$member['year']."기)";?></a></div>
                     <div class="member_bubble">
                     <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                    <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                    <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                   </div>
                   <div class="tail"></div>
-                    <?}?>
+                    <?php }?>
           </div>
 
           <!-- header logo (ARTINEER) -->
@@ -140,14 +140,14 @@
           <!-- 글쓰기 게시판 -->
           <div class="write_table_position">
             <form name="edit" action="edit_post.php" method="post" enctype="multipart/form-data">
-              <?if($bbsname == 'notice') {?><input type="hidden" name="bbsname" value="notice"><?}?>
-              <?if($bbsname == 'reference') {?><input type="hidden" name="bbsname" value="reference"><?}?>
-              <?if($bbsname == 'minutes') {?><input type="hidden" name="bbsname" value="minutes"><?}?>
-              <?if($bbsname == 'hello') {?><input type="hidden" name="bbsname" value="hello"><?}?>
-              <?if($bbsname == 'project') {?><input type="hidden" name="bbsname" value="project"><?}?>
-              <?if($bbsname == 'gallery') {?><input type="hidden" name="bbsname" value="gallery"><?}?>
-              <?if($bbsname == 'exam') {?><input type="hidden" name="bbsname" value="exam"><?}?>
-              <?
+              <?php if($bbsname == 'notice') {?><input type="hidden" name="bbsname" value="notice"><?}?>
+              <?php if($bbsname == 'reference') {?><input type="hidden" name="bbsname" value="reference"><?}?>
+              <?php if($bbsname == 'minutes') {?><input type="hidden" name="bbsname" value="minutes"><?}?>
+              <?php if($bbsname == 'hello') {?><input type="hidden" name="bbsname" value="hello"><?}?>
+              <?php if($bbsname == 'project') {?><input type="hidden" name="bbsname" value="project"><?}?>
+              <?php if($bbsname == 'gallery') {?><input type="hidden" name="bbsname" value="gallery"><?}?>
+              <?php if($bbsname == 'exam') {?><input type="hidden" name="bbsname" value="exam"><?}?>
+              <?php
               if($bbsname == 'notice') {
                 $query = "select * from notice where no='$no' and id='$id'";
               } else if($bbsname == 'reference') {
@@ -163,18 +163,17 @@
               } else if($bbsname == 'exam') {
                 $query = "select * from exam where no='$no' and id='$id'";
               }
-              mysql_query("set names utf8");
-              $result = mysql_query($query, $connect);
-              $data = mysql_fetch_array($result);
+              $result = mysqli_query($connect, $query);
+              $data = mysqli_fetch_array($result);
               ?>
               <table class="write_table" border="1">
                 <input type="hidden" name="no" value="<?=$no?>">
                 <tr class="table_title">
-                  <td colspan="2"><input class="table_title_input" type="text" name="subject" placeholder="제목" value="<?=$data[subject]?>"></td>
+                  <td colspan="2"><input class="table_title_input" type="text" name="subject" placeholder="제목" value="<?=$data['subject']?>"></td>
                 </tr>
                 <tr class="table_body">
                   <td colspan="2" align="center">
-                    <textarea id="editor" name="story"><?=$data[story]?></textarea>
+                    <textarea id="editor" name="story"><?=$data['story']?></textarea>
                     <script>
                         CKEDITOR.replace("story",{width: '100%', height: '400px'});
                     </script>
@@ -182,23 +181,23 @@
                 </tr>
                 <tr class="table_file_upload">
                   <td colspan="2" style="font-size: 13px;">
-                    <?if($data[file]) {?>
-                      <?=$data[file]?>
-                      <?if($bbsname == 'notice') {?>
+                    <?php if($data['file']) {?>
+                      <?=$data['file']?>
+                      <?php if($bbsname == 'notice') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=notice','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'reference') {?>
+                      <?php } else if($bbsname == 'reference') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=reference','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'minutes') {?>
+                      <?php } else if($bbsname == 'minutes') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=minutes','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'hello') {?>
+                      <?php } else if($bbsname == 'hello') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=hello','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'project') {?>
+                      <?php } else if($bbsname == 'project') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=project','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'gallery') {?>
+                      <?php } else if($bbsname == 'gallery') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=gallery','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} else if($bbsname == 'exam') {?>
+                      <?php } else if($bbsname == 'exam') {?>
                         <a href='#' onclick="window.open('./file_del.php?no=<?=$no?>&bbsname=exam','open','width=450,height=150,top=50,left=5,scrollbars=no, resizable=no')">삭제</a>
-                      <?} }?>
+                      <?php } }?>
                     <input class="table_file_upload_btn" multiple="multiple" type="file" name="file[]" placeholder="첨부파일">
                   </td>
                 </tr>

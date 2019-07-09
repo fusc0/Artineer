@@ -1,4 +1,5 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include ("./db_connect.php");
 $connect = dbconn();
@@ -20,5 +21,5 @@ $sql = "CREATE TABLE project
 if(!$sql) die("테이블 생성에 실패 하였습니다.".mysql_error());
 
 if($sql) echo ("정상적으로 실행 되었습니다.");
-mysql_query($sql, $connect);
+mysqli_query($connect, $sql);
 ?>

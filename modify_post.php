@@ -1,22 +1,23 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-$no = $_POST[no];
-$pw_1 = $_POST[pw_1];
-$pw_2 = $_POST[pw_2];
-$birth_1 = $_POST[birth_1];
-$birth_2 = $_POST[birth_2];
-$birth_3 = $_POST[birth_3];
-$tel_1 = $_POST[tel_1];
-$tel_2 = $_POST[tel_2];
-$tel_3 = $_POST[tel_3];
-$email_1 = $_POST[email_1];
-$email_2 = $_POST[email_2];
-$addr = $_POST[addr];
-$year = $_POST[year];
+$no = $_POST['no'];
+$pw_1 = $_POST['pw_1'];
+$pw_2 = $_POST['pw_2'];
+$birth_1 = $_POST['birth_1'];
+$birth_2 = $_POST['birth_2'];
+$birth_3 = $_POST['birth_3'];
+$tel_1 = $_POST['tel_1'];
+$tel_2 = $_POST['tel_2'];
+$tel_3 = $_POST['tel_3'];
+$email_1 = $_POST['email_1'];
+$email_2 = $_POST['email_2'];
+$addr = $_POST['addr'];
+$year = $_POST['year'];
 
 if(!$pw_1) Error("비밀번호를 입력하세요.");
 if(!$pw_2) Error("비밀번호 확인을 입력하세요.");
@@ -53,9 +54,9 @@ addr = '$addr',
 year = '$year'
 where no = '$no'
 ";
-mysql_query("set names utf8", $connect);
-mysql_query($query, $connect);
-mysql_close();
+mysqli_query($connect, "set names utf8");
+mysqli_query($connect, $query);
+mysqli_close($connect);
 ?>
 
 <script>

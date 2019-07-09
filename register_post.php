@@ -1,23 +1,24 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include ("./db_connect.php");
 $connect = dbconn();
 
-$id = $_POST[id];
-$pw_1 = $_POST[pw_1];
-$pw_2 = $_POST[pw_2];
-$name = $_POST[name];
-$sex = $_POST[sex];
-$birth_1 = $_POST[birth_1];
-$birth_2 = $_POST[birth_2];
-$birth_3 = $_POST[birth_3];
-$tel_1 = $_POST[tel_1];
-$tel_2 = $_POST[tel_2];
-$tel_3 = $_POST[tel_3];
-$email_1 = $_POST[email_1];
-$email_2 = $_POST[email_2];
-$addr = $_POST[addr];
-$year = $_POST[year];
+$id = $_POST['id'];
+$pw_1 = $_POST['pw_1'];
+$pw_2 = $_POST['pw_2'];
+$name = $_POST['name'];
+$sex = $_POST['sex'];
+$birth_1 = $_POST['birth_1'];
+$birth_2 = $_POST['birth_2'];
+$birth_3 = $_POST['birth_3'];
+$tel_1 = $_POST['tel_1'];
+$tel_2 = $_POST['tel_2'];
+$tel_3 = $_POST['tel_3'];
+$email_1 = $_POST['email_1'];
+$email_2 = $_POST['email_2'];
+$addr = $_POST['addr'];
+$year = $_POST['year'];
 $level = 2;
 $regdate = date("Y-m-d (H:i)", time());
 $ip = getenv("REMOTE_ADDR");
@@ -62,12 +63,11 @@ if(preg_match("/[^\d]/", $year)) Error("기수는 숫자만 입력해주세요."
 
 $query = "INSERT INTO member(id, pw, name, sex, birth, tel, email, addr, year, level, regdate, ip)
 VALUES('$id', '$pw_1', '$name', '$sex', '$birth', '$tel', '$email', '$addr', '$year', '$level', '$regdate', '$ip')";
-mysql_query("set names utf8", $connect);
-mysql_query($query, $connect);
-mysql_close();
+mysqli_query($connect, "set names utf8");
+mysqli_query($connect, $query);
+mysqli_close($connect);
 ?>
 
 <script>
-window.alert('회원가입 완료!');
-location.href = './index.php';
+
 </script>

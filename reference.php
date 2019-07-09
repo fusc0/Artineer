@@ -15,7 +15,7 @@
   </head>
 
   <body>
-    <?
+    <?php
     include ("./db_connect.php");
     $connect = dbconn();
     $member = member();
@@ -32,7 +32,7 @@
 
           <!-- header fixed user (login, register) -->
           <div class="header_fixed_user">
-              <?if(!$member[id]) {?>
+              <?php if(!$member['id']) {?>
                 <div class="member"><a style="cursor:pointer;">로그인하세요</a></div>
               <div class="member_bubble">
                 <li class="member_sub"><a style="cursor:pointer;" id="login_toggle">로그인</a></li>
@@ -49,14 +49,14 @@
                 <li class="member_sub"><a href="./register.php">회원가입</a></li>
               </div>
               <div class="tail"></div>
-                    <?} else {?>
-                    <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                    <?php } else {?>
+                    <div class="member"><a style="cursor:pointer;"><?php echo $member['name']."(".$member['year']."기)";?></a></div>
                     <div class="member_bubble">
                     <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                    <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                    <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                   </div>
                   <div class="tail"></div>
-                    <?}?>
+                    <?php }?>
           </div>
 
           <!-- header logo (ARTINEER) -->
@@ -118,11 +118,11 @@
 
       <!-- container -->
       <div id="container">
-        <?
-        $_page = $_GET[_page];
+        <?php
+        $_page = $_GET['_page'];
 
-        $search_text = $_GET[search_text];
-        $search_mode = $_GET[search_mode];
+        $search_text = $_GET['search_text'];
+        $search_mode = $_GET['search_mode'];
 
         $view_total = 10;
         if(!$_page)$_page = 1;
@@ -140,9 +140,9 @@
         }
 
         $query = "select count(*) from reference where $where";
-        mysql_query("set names utf8");
-        $result = mysql_query($query, $connect);
-        $temp = mysql_fetch_array($result);
+        mysqli_query($connect, "set names utf8");
+        $result = mysqli_query($connect, $query);
+        $temp = mysqli_fetch_array($result);
         $totals = $temp[0];
         ?>
 
@@ -173,17 +173,17 @@
               </thead>
 
               <tbody>
-                <?
+                <?php
                 $query = "select * from reference where $where order by no desc limit $page, $view_total";
-                $result = mysql_query($query,$connect);
-                while($data = mysql_fetch_array($result)) {
+                $result = mysqli_query($connect, $query);
+                while($data = mysqli_fetch_array($result)) {
                 ?>
                 <tr>
-                  <td><?=$data[no]?></td>
+                  <td><?=$data['no']?></td>
                   <td class="title">
-                    <a href="./view.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=reference"><?=mb_substr($data[subject], 0, 35, 'UTF-8');?> <font color="#20cbd3">(<?=$data[comment]?>)</font>
-                      <?
-                        $date1 = str_replace('-','',$data[regdate]);
+                    <a href="./view.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=reference"><?=mb_substr($data['subject'], 0, 35, 'UTF-8');?> <font color="#20cbd3">(<?=$data['comment']?>)</font>
+                      <?php
+                        $date1 = str_replace('-','',$data['regdate']);
                         $date2 = str_replace(' ','',$date1);
                         $date3 = str_replace('(','',$date2);
                         $date4 = str_replace(':','',$date3);
@@ -197,22 +197,22 @@
                       ?>
                     </a>
                   </td>
-                  <td class="name"><?=$data[name]."(".$data[year]."기)"?></td>
-                  <td class="date"><?=$data[regdate]?></td>
-                  <td class="hit"><?=$data[hit]?></td>
-                  <?}?>
+                  <td class="name"><?=$data['name']."(".$data['year']."기)"?></td>
+                  <td class="date"><?=$data['regdate']?></td>
+                  <td class="hit"><?=$data['hit']?></td>
+                  <?php }?>
                 </tr>
                 <tr>
-                  <td colspan="5"><?include ('./list_page.php');?></td>
+                  <td colspan="5"><?php include ('./list_page.php');?></td>
                 </tr>
               </tbody>
             </table>
-            <?
-            mysql_query("set names utf8");
-            $result = mysql_query($query, $connect);
-            $data = mysql_fetch_array($result);
+            <?php
+            mysqli_query($connect, "set names utf8");
+            $result = mysqli_query($connect, $query);
+            $data = mysqli_fetch_array($result);
             ?>
-            <button class="table_write_btn" type="button" onclick="location.href='./write.php?no=<?=$data[no]+1?>&id=<?=$member[id]?>&bbsname=reference'">글쓰기</button>
+            <button class="table_write_btn" type="button" onclick="location.href='./write.php?no=<?=$data['no']+1?>&id=<?=$member['id']?>&bbsname=reference'">글쓰기</button>
             <table class="search_table">
               <form action="<?=$PHP_SELE?>">
               <tr>

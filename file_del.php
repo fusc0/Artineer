@@ -1,14 +1,15 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-if(!$member[id]) Error("로그인 후 이용해 주세요.");
+if(!$member['id']) Error("로그인 후 이용해 주세요.");
 
-$no = $_GET[no];
+$no = $_GET['no'];
 
-$bbsname = $_GET[bbsname];
+$bbsname = $_GET['bbsname'];
 
 if($bbsname == 'notice') {
   $query = "select * from notice where no='$no' and id='$member[id]'";
@@ -24,11 +25,11 @@ if($bbsname == 'notice') {
   $query = "select * from gallery where no='$no' and id='$member[id]'";
 }
 
-$result = mysql_query($query, $connect);
-$data = mysql_fetch_array($result);
-if(!$result)die("연결에 실패 하였습니다.".mysql_error());
+$result = mysqli_query($connect, $query);
+$data = mysqli_fetch_array($result);
+if(!$result)die("연결에 실패 하였습니다.".mysqli_error($connect));
 
-if($data[file]) {
+if($data['file']) {
 
   if($bbsname == 'notice') {
     $qy = "update notice set
@@ -56,13 +57,13 @@ if($data[file]) {
     where no='$no' and id='$data[id]'";
   }
 
-  mysql_query($qy, $connect);
+  mysqli_query($connect, $qy);
 
-  $del_file = "./data/".$data[file];
-  if($data[file] && is_file($del_file)) unlink($del_file);
+  $del_file = "./data/".$data['file'];
+  if($data['file'] && is_file($del_file)) unlink($del_file);
 }
 
-mysql_close;
+mysqli_close($connect);
 ?>
 
 <script language="JavaScript">

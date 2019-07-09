@@ -1,17 +1,18 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-if(!$member[id]) Error("로그인 후 이용해 주세요.");
+if(!$member['id']) Error("로그인 후 이용해 주세요.");
 
-$id = $member[id];
-$name = $member[name];
-$subject = $_POST[subject];
-$story = $_POST[story];
-$no = $_POST[no];
-$bbsname = $_POST[bbsname];
+$id = $member['id'];
+$name = $member['name'];
+$subject = $_POST['subject'];
+$story = $_POST['story'];
+$no = $_POST['no'];
+$bbsname = $_POST['bbsname'];
 $hit = 0;
 
 if($_FILES['file']['size'][0] != 0) {
@@ -56,7 +57,7 @@ if(!$story) Error('내용을 입력하세요.');
 
 $regdate = date("Y-m-d (H:i)", time());
 $ip = getenv("REMOTE_ADDR");
-$year = $member[year];
+$year = $member['year'];
 
 if($bbsname == 'notice') {
   $query="insert into notice(id, name, subject, story, hit, year, file, comment, regdate, ip)
@@ -87,50 +88,50 @@ else if($bbsname == 'exam') {
   values('$id','$name','$subject','$story','$hit','$year','$files','0','$regdate','$ip')";
 }
 
-mysql_query("set names utf8", $connect);
-mysql_query($query, $connect);
-mysql_close();
+mysqli_query($connect, "set names utf8");
+mysqli_query($connect, $query);
+mysqli_close($connect);
 ?>
 
-<?if($bbsname == 'notice') { ?>
+<?php if($bbsname == 'notice') { ?>
   <script>
   window.alert('글 작성 완료!');
   location.href = './notice.php';
   </script>
-  <?}?>
-  <?if($bbsname == 'reference') {?>
+  <?php }?>
+  <?php if($bbsname == 'reference') {?>
     <script>
     window.alert('글 작성 완료!');
     location.href = './reference.php';
     </script>
-    <?}?>
-    <?if($bbsname == 'minutes') {?>
+    <?php }?>
+    <?php if($bbsname == 'minutes') {?>
       <script>
       window.alert('글 작성 완료!');
       location.href = './minutes.php';
       </script>
-      <?}?>
-      <?if($bbsname == 'hello') {?>
+      <?php }?>
+      <?php if($bbsname == 'hello') {?>
         <script>
         window.alert('글 작성 완료!');
         location.href = './hello.php';
         </script>
-        <?}?>
-        <?if($bbsname == 'project') {?>
+        <?php }?>
+        <?php if($bbsname == 'project') {?>
           <script>
           window.alert('글 작성 완료!');
           location.href = './project.php';
           </script>
-          <?}?>
-          <?if($bbsname == 'gallery') {?>
+          <?php }?>
+          <?php if($bbsname == 'gallery') {?>
             <script>
             window.alert('글 작성 완료!');
             location.href = './gallery.php';
             </script>
-            <?}?>
-            <?if($bbsname == 'exam') {?>
+            <?php }?>
+            <?php if($bbsname == 'exam') {?>
               <script>
               window.alert('글 작성 완료!');
               location.href = './exam.php';
               </script>
-              <?}?>
+              <?php }?>

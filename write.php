@@ -13,30 +13,30 @@
     <link rel="shortcut icon" href="./favicon.ico">
   </head>
   <body>
-    <?
+    <?php
     include ("./db_connect.php");
     $connect = dbconn();
     $member = member();
 
-    $id = $_GET[id];
-    $no = $_GET[no];
+    $id = $_GET['id'];
+    $no = $_GET['no'];
 
-    $bbsname = $_GET[bbsname];
+    $bbsname = $_GET['bbsname'];
 
     if($bbsname == 'notice') {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
-      else if(!$member[level] == 0)Error("관리자만 이용할 수 있습니다.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
+      else if(!$member['level'] == 0)Error("관리자만 이용할 수 있습니다.");
     }
     else if($bbsname == 'minutes') {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
-      else if(!$member[level] == 0)Error("관리자만 이용할 수 있습니다.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
+      else if(!$member['level'] == 0)Error("관리자만 이용할 수 있습니다.");
     }
     else if($bbsname == 'hello') {
-      if(!$member[id])Error("로그인 후 이용해 주세요.");
+      if(!$member['id'])Error("로그인 후 이용해 주세요.");
     }
     else {
-      if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
-      else if(!$member[id])Error("로그인 후 이용해 주세요.");
+      if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if(!$member['id'])Error("로그인 후 이용해 주세요.");
     }
     ?>
     <div class="wrap">
@@ -51,7 +51,7 @@
 
           <!-- header fixed user (login, register) -->
           <div class="header_fixed_user">
-              <?if(!$member[id]) {?>
+              <?php if(!$member['id']) {?>
                 <div class="member"><a style="cursor:pointer;">로그인하세요</a></div>
               <div class="member_bubble">
                 <li class="member_sub"><a style="cursor:pointer;" id="login_toggle">로그인</a></li>
@@ -68,14 +68,14 @@
                 <li class="member_sub"><a href="./register.php">회원가입</a></li>
               </div>
               <div class="tail"></div>
-                    <?} else {?>
-                    <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                    <?php } else {?>
+                    <div class="member"><a style="cursor:pointer;"><?php echo $member['name']."(".$member['year']."기)";?></a></div>
                     <div class="member_bubble">
                     <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                    <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                    <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                   </div>
                   <div class="tail"></div>
-                    <?}?>
+                    <?php }?>
           </div>
 
           <!-- header logo (ARTINEER) -->
@@ -142,14 +142,14 @@
           <!-- 글쓰기 게시판 -->
           <div class="write_table_position">
             <form name="write" action="write_post.php" method="post" enctype="multipart/form-data">
-              <?if($bbsname == 'notice') {?><input type="hidden" name="bbsname" value="notice"><?}?>
-              <?if($bbsname == 'reference') {?><input type="hidden" name="bbsname" value="reference"><?}?>
-              <?if($bbsname == 'minutes') {?><input type="hidden" name="bbsname" value="minutes"><?}?>
-              <?if($bbsname == 'hello') {?><input type="hidden" name="bbsname" value="hello"><?}?>
-              <?if($bbsname == 'project') {?><input type="hidden" name="bbsname" value="project"><?}?>
-              <?if($bbsname == 'gallery') {?><input type="hidden" name="bbsname" value="gallery"><?}?>
-              <?if($bbsname == 'exam') {?><input type="hidden" name="bbsname" value="exam"><?}?>
-              <?
+              <?php if($bbsname == 'notice') {?><input type="hidden" name="bbsname" value="notice"><?}?>
+              <?php if($bbsname == 'reference') {?><input type="hidden" name="bbsname" value="reference"><?}?>
+              <?php if($bbsname == 'minutes') {?><input type="hidden" name="bbsname" value="minutes"><?}?>
+              <?php if($bbsname == 'hello') {?><input type="hidden" name="bbsname" value="hello"><?}?>
+              <?php if($bbsname == 'project') {?><input type="hidden" name="bbsname" value="project"><?}?>
+              <?php if($bbsname == 'gallery') {?><input type="hidden" name="bbsname" value="gallery"><?}?>
+              <?php if($bbsname == 'exam') {?><input type="hidden" name="bbsname" value="exam"><?}?>
+              <?php
               if($bbsname == 'notice') {
                 $query = "select * from notice where no='$no'";
               } else if($bbsname == 'reference') {
@@ -165,9 +165,9 @@
               } else if($bbsname == 'exam') {
                 $query = "select * from exam where no='$no'";
               }
-              mysql_query("set names utf8");
-              $result = mysql_query($query, $connect);
-              $data = mysql_fetch_array($result);
+              mysqli_query($connect, "set names utf8");
+              $result = mysqli_query($connect, $query);
+              $data = mysqli_fetch_array($result);
               ?>
               <table class="write_table" border="1">
                 <tr class="table_title">

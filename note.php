@@ -13,9 +13,13 @@
     <link rel="stylesheet" href="./style/note.css">
     <link rel="shortcut icon" href="./favicon.ico">
   </head>
+  <script>
+    alert("방명록 페이지 공사중");
+    history.back();
+  </script>
 
   <body>
-    <?
+    <?php
     include ("./db_connect.php");
     $connect = dbconn();
     $member = member();
@@ -30,7 +34,7 @@
 
         <!-- header fixed user (login, register) -->
         <div class="header_fixed_user">
-            <?if(!$member[id]) {?>
+            <?if(!$member['id']) {?>
               <div class="member"><a style="cursor:pointer;">로그인하세요</a></div>
             <div class="member_bubble">
               <li class="member_sub"><a style="cursor:pointer;" id="login_toggle">로그인</a></li>
@@ -48,10 +52,10 @@
             </div>
             <div class="tail"></div>
                   <?} else {?>
-                  <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                  <div class="member"><a style="cursor:pointer;"><?echo $member['name']."(".$member['year']."기)";?></a></div>
                   <div class="member_bubble">
                   <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                  <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                  <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                 </div>
                 <div class="tail"></div>
                   <?}?>
@@ -117,17 +121,17 @@
     <!-- container -->
     <div id="container">
       <div class="container_position">
-        <?
-        $_page = $_GET[_page];
+        <?php
+        $_page = $_GET['_page'];
 
         $view_total = 10;
         if(!$_page)$_page = 1;
         $page = ($_page-1) * $view_total;
 
         $query = "select count(*) from note";
-        mysql_query("set names utf8");
-        $result = mysql_query($query, $connect);
-        $temp = mysql_fetch_array($result);
+        mysqli_query($connect, "set names utf8");
+        $result = mysqli_query($connect, $query);
+        $temp = mysqli_fetch_array($result);
         $totals = $temp[0];
         ?>
         <!-- TO DO : note(타임라인 형식의 방명록) 구현 -->
@@ -154,21 +158,21 @@
           </div>
 
           <div class="note_view">
-            <?
+            <?php
             $query = "select * from note order by no desc limit $page, $view_total";
-            $result = mysql_query($query,$connect);
-            while($data = mysql_fetch_array($result)) {
+            $result = mysqli_query($connect, $query);
+            while($data = mysqli_fetch_array($result)) {
             ?>
             <table class="note_view_table" border="0" align="center">
               <tr>
-                <td><?=$data[name]?></td>
-                <td align="right"><?=$data[regdate]?></td>
+                <td><?=$data['name']?></td>
+                <td align="right"><?=$data['regdate']?></td>
               </tr>
               <tr>
-                <td colspan="2"><?=$data[memo]?></td>
+                <td colspan="2"><?=$data['memo']?></td>
               </tr>
               <tr>
-                <td colspan="2" align="right"><button class="note_button" style="cursor:pointer;" onclick="if(prompt('비밀번호를 입력해주세요.')==='<?=$data[pw]?>'){location='note_del.php?no=<?=$data[no]?>';}else{alert('비밀번호가 맞지 않습니다.')}">삭제</button></td>
+                <td colspan="2" align="right"><button class="note_button" style="cursor:pointer;" onclick="if(prompt('비밀번호를 입력해주세요.')==='<?=$data['pw']?>'){location='note_del.php?no=<?=$data['no']?>';}else{alert('비밀번호가 맞지 않습니다.')}">삭제</button></td>
               </tr>
             </table>
             <?}?>

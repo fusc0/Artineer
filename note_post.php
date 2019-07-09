@@ -1,11 +1,12 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 
-$name = $_POST[name];
-$pw = $_POST[pw];
-$memo = $_POST[memo];
+$name = $_POST['name'];
+$pw = $_POST['pw'];
+$memo = $_POST['memo'];
 $regdate = date("Y-m-d (H:i)", time());
 $ip = getenv("REMOTE_ADDR");
 
@@ -17,9 +18,9 @@ if(!$memo) Error('내용을 입력하세요.');
 $query = "insert into note(name, pw, memo, regdate, ip)
 values('$name','$pw','$memo','$regdate','$ip')";
 
-mysql_query("set names utf8", $connect);
-mysql_query($query, $connect);
-mysql_close();
+mysqli_query($connect, "set names utf8");
+mysqli_query($connect, $query);
+mysqli_close($connect);
 ?>
 
 <script>

@@ -1,4 +1,4 @@
-<?ob_start();?>
+<?php ob_start();?>
 <!DOCTYPE html>
 <html>
   <head>
@@ -14,51 +14,51 @@
   </head>
 
   <body>
-    <?
+    <?php
     include("./db_connect.php");
     $connect = dbconn();
     $member = member();
 
-    $bbsname = $_GET[bbsname];
+    $bbsname = $_GET['bbsname'];
 
     if($bbsname == 'project') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='project.php';
         </script>";
       }
-      else if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
     }
     else if($bbsname == 'minutes') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='minutes.php';
         </script>";
       }
-      else if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
     }
     else if($bbsname == 'gallery') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='gallery.php';
         </script>";
       }
-      else if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
     }
     else if($bbsname == 'reference') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='reference.php';
         </script>";
       }
-      else if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
     }
     else if($bbsname == 'notice') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='notice.php';
@@ -66,16 +66,16 @@
       }
     }
     else if($bbsname == 'exam') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='exam.php';
         </script>";
       }
-      else if($member[level] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
+      else if($member['level'] == 2)Error("관리자로부터 가입 승인 후 이용해 주세요.");
     }
     else if($bbsname == 'hello') {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='hello.php';
@@ -83,7 +83,7 @@
       }
     }
     else {
-      if(!$member[id]) {
+      if(!$member['id']) {
         echo "<script>
         window.alert('로그인 후 이용해 주세요.');
         location.href='index.php';
@@ -91,14 +91,14 @@
       }
     }
 
-    $no = $_GET[no];
-    $id = $_GET[id];
+    $no = $_GET['no'];
+    $id = $_GET['id'];
 
-    $re_wt = $_GET[re_wt];  //코멘트 답글입력란 생성  값이 (Y)면 .....
-    $lo_reply_1 = $_GET[lo_reply_1]; //페이지 로케이션
-    $comment_no = $_GET[comment_no]; //코멘트 순번.
+    $re_wt = $_GET['re_wt'];  //코멘트 답글입력란 생성  값이 (Y)면 .....
+    $lo_reply_1 = $_GET['lo_reply_1']; //페이지 로케이션
+    $comment_no = $_GET['comment_no']; //코멘트 순번.
 
-    $bbsname = $_GET[bbsname];
+    $bbsname = $_GET['bbsname'];
 
     $bbs = $no;
     if($no != $_COOKIE['hit_bbs_'.$no]) {
@@ -117,7 +117,7 @@
       } else if ($bbsname == 'exam') {
         $_query = "update exam set hit = hit+1 where no = '$no'";
       }
-      mysql_query($_query, $connect);
+      mysqli_query($connect, $_query);
       setcookie("hit_bbs_".$no, $no, time()+60*60*24, "/");
     }
 
@@ -137,7 +137,7 @@
 
           <!-- header fixed user (login, register) -->
           <div class="header_fixed_user">
-              <?if(!$member[id]) {?>
+              <?php if(!$member['id']) {?>
                 <div class="member"><a style="cursor:pointer;">로그인하세요</a></div>
               <div class="member_bubble">
                 <li class="member_sub"><a style="cursor:pointer;" id="login_toggle">로그인</a></li>
@@ -154,14 +154,14 @@
                 <li class="member_sub"><a href="./register.php">회원가입</a></li>
               </div>
               <div class="tail"></div>
-                    <?} else {?>
-                    <div class="member"><a style="cursor:pointer;"><?echo $member[name]."(".$member[year]."기)";?></a></div>
+                    <?php } else {?>
+                    <div class="member"><a style="cursor:pointer;"><?php echo $member['name']."(".$member['year']."기)";?></a></div>
                     <div class="member_bubble">
                     <li class="member_sub"><a href="./logout.php">로그아웃</a></li>
-                    <li class="member_sub"><a href="./modify.php?no=<?=$member[no]?>&id=<?=$member[id]?>">정보수정</a></li>
+                    <li class="member_sub"><a href="./modify.php?no=<?=$member['no']?>&id=<?=$member['id']?>">정보수정</a></li>
                   </div>
                   <div class="tail"></div>
-                    <?}?>
+                    <?php }?>
           </div>
 
           <!-- header logo (ARTINEER) -->
@@ -228,7 +228,7 @@
           <!--글보기 table-->
           <div class="view_table_position">
             <table class="view_table" cellspacing="0" border="0">
-              <?
+              <?php
               if($bbsname == 'notice') {
                 $query = "select * from notice where no='$no'";
               } else if ($bbsname == 'minutes') {
@@ -244,136 +244,135 @@
               } else if ($bbsname == 'exam') {
                 $query = "select * from exam where no='$no'";
               }
-              mysql_query("set names utf8");
-              $result = mysql_query($query, $connect);
-              $data = mysql_fetch_array($result);
+              mysqli_query($connect, "set names utf8");
+              $result = mysqli_query($connect, $query);
+              $data = mysqli_fetch_array($result);
               ?>
               <tr class="table_title">
                 <th>제목</th>
-                <td colspan="3"><?=$data[subject]?></td>
+                <td colspan="3"><?=$data['subject']?></td>
               </tr>
               <tr>
                 <th class="table_th">글쓴이</th>
-                <td class="table_name"><?=$data[name]."(".$data[year]."기)"?></td>
+                <td class="table_name"><?=$data['name']."(".$data['year']."기)"?></td>
                 <th class="table_th" colspan="1">날짜</th>
-                <td class="table_date" colspan="1" align="center"><?=$data[regdate]?></td>
+                <td class="table_date" colspan="1" align="center"><?=$data['regdate']?></td>
               </tr>
               <tr>
                 <th class="table_th">첨부파일</th>
                 <td colspan="1" class="table_file">
-                  <?
-                  if($data[file]) {
-                    $files = explode(",", $data[file]);
+                  <?php
+                  if($data['file']) {
+                    $files = explode(",", $data['file']);
                     for($i=0; $i<count($files); $i++) {
                   ?>
                   <a href="./data/<?=$files[$i]?>" download><?=$files[$i]?></a>
-                  <?}
+                  <?php }
                   } else {
                       echo "없음";
                   }
                   ?>
                 </td>
                 <th class="table_th">조회수</th>
-                <td class="table_hit" align="center"><?=$data[hit]?></td>
+                <td class="table_hit" align="center"><?=$data['hit']?></td>
               </tr>
               <tr>
                 <td class="table_view" colspan="8">
                   <div>
-                    <?
-                      if($data[file]) {
+                    <?php
+                      if($data['file']) {
                       $img_ext = array('jpg','jpeg','gif','png');
                       for($i=0; $i<count($files); $i++) {
                         $file_split[] = explode(".", $files[$i]);
                         $file_type[] = $file_split[$i][count($file_split[$i])-1];
                         if(array_search($file_type[$i], $img_ext) === false) {
                         }
-                        else {
-                        ?>
+                        else { ?>
                       <div class="view_img">
                         <img width="100%" src="./data/<?=$files[$i]?>">
                       </div>
                       <br>
-                    <?} } }?>
-                      <?=nl2br($data[story])?>
+                    <?php } } } ?>
+                      <?=nl2br($data['story'])?>
                   </div>
                 </td>
               </tr>
               <tr class="view_edit">
-                <?
+                <?php
                 $q_count = "select count(*) from comment where bbs_no='$data[no]' and bbsname='$bbsname'";
-                $r_count = mysql_query($q_count, $connect);
-                $count = mysql_fetch_array($r_count);
+                $r_count = mysqli_query($connect, $q_count);
+                $count = mysqli_fetch_array($r_count);
                 $total_count = $count[0]; //코멘트 총개수
                 ?>
                 <td align="left">댓글(<?=$total_count?>)</td>
                 <td colspan="8" align="right">
                   <button onclick="history.back(-1)" style="cursor:pointer;">목록</button>
-                  <?if($bbsname == 'notice') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=notice';">수정</button>
-                  <?} else if ($bbsname == 'minutes') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=minutes';">수정</button>
-                  <?} else if ($bbsname == 'reference') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=reference';">수정</button>
-                  <?} else if ($bbsname == 'hello') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=hello';">수정</button>
-                  <?} else if ($bbsname == 'project') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=project';">수정</button>
-                  <?} else if ($bbsname == 'gallery') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery';">수정</button>
-                  <?} else if ($bbsname == 'exam') {?>
-                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=exam';">수정</button>
-                  <?}?>
-                  <?if($bbsname == 'notice') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=notice';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'minutes') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=minutes';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'reference') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=reference';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'hello') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=hello';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'project') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=project';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'gallery') {?>
-                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=gallery';}else{return;}">삭제</button>
-                  <?} else if ($bbsname == 'exam') {?>
-                      <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data[no]?>&id=<?=$data[id]?>&bbsname=exam';}else{return;}">삭제</button>
-                  <?}?>
+                  <?php if($bbsname == 'notice') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=notice';">수정</button>
+                  <?php } else if ($bbsname == 'minutes') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=minutes';">수정</button>
+                  <?php } else if ($bbsname == 'reference') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=reference';">수정</button>
+                  <?php } else if ($bbsname == 'hello') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=hello';">수정</button>
+                  <?php } else if ($bbsname == 'project') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=project';">수정</button>
+                  <?php } else if ($bbsname == 'gallery') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery';">수정</button>
+                  <?php } else if ($bbsname == 'exam') {?>
+                    <button style="cursor:pointer;" onclick="location='edit.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=exam';">수정</button>
+                  <?php }?>
+                  <?php if($bbsname == 'notice') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=notice';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'minutes') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=minutes';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'reference') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=reference';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'hello') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=hello';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'project') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=project';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'gallery') {?>
+                    <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=gallery';}else{return;}">삭제</button>
+                  <?php } else if ($bbsname == 'exam') {?>
+                      <button style="cursor:pointer;" onclick="if(confirm('정말 삭제하시겠습니까?')==true){location='del.php?no=<?=$data['no']?>&id=<?=$data['id']?>&bbsname=exam';}else{return;}">삭제</button>
+                  <?php }?>
                 </td>
               </tr>
             </table>
             <!-------코맨트 출력---------->
             <table id='lo_reply_1' width="100%" border="0">
-            <?
+            <?php
             $q = "select * from comment where bbs_no='$data[no]' and replys='0' and bbsname='$bbsname' order by regdate asc, no asc";
-            $r = mysql_query($q, $connect);
-            while($d=mysql_fetch_array($r)) {
+            $r = mysqli_query($connect, $q);
+            while($d=mysqli_fetch_array($r)) {
             ?>
             <table id="comment_view_table" border="0">
               <tr>
                 <td class="comment_view_name">
                   <span>
-                    <?=$d[name]?>(<?=$d[year]?>기)
+                    <?=$d['name']?>(<?=$d['year']?>기)
                   </span>
                 </td>
 
                 <td class="comment_view_date" align="right">
-                  <?=$d[regdate]?>
+                  <?=$d['regdate']?>
                 </td>
 
                 <td class="comment_view_name" align='right' width="80px">
-                  <?if($member[id]){?>
-                    <a href='view.php?id=<?=$id?>&no=<?=$no?>&bbsname=<?=$bbsname?>&re_wt=Y&comment_no=<?=$d[no]?>#lo_reply_2' onfocus="this.blur()" style="text-decoration: none; padding-right: 5px;">
+                  <?if($member['id']){?>
+                    <a href='view.php?id=<?=$id?>&no=<?=$no?>&bbsname=<?=$bbsname?>&re_wt=Y&comment_no=<?=$d['no']?>#lo_reply_2' onfocus="this.blur()" style="text-decoration: none; padding-right: 5px;">
                       <font color='#20cbd3' style="font-weight: normal;">답글</font>
                     </a>
-                    <?}?>
+                    <?php }?>
                 </td>
               </tr>
 
               <tr>
                 <td class="comment_view_memo" colspan='4' valign='top'>
-                  <?=nl2br($d[memo])?>
+                  <?=nl2br($d['memo'])?>
                   <div align='right'>
-                    <a href='./comment_del.php?bbsname=<?=$bbsname?>&comment_no=<?=$d[no]?>&no_s=<?=$data[no]?>&bbs_no=<?=$d[bbs_no]?>&replys_all=all' onfocus='this.blur()'  style="font-size: 12px; text-decoration: none; padding-right: 5px;">
+                    <a href='./comment_del.php?bbsname=<?=$bbsname?>&comment_no=<?=$d['no']?>&no_s=<?=$data['no']?>&bbs_no=<?=$d['bbs_no']?>&replys_all=all' onfocus='this.blur()'  style="font-size: 12px; text-decoration: none; padding-right: 5px;">
                       <font color='#20cbd3' onclick="return confirm('삭제하시겠습니까?')">삭제</font>
                     </a>
                   </div>
@@ -381,31 +380,31 @@
               </tr>
             </table>
 
-            <?
+            <?php
             ////////////// 코맨트 (답글-출력)/////////////
             $q_2="select * from comment where bbs_no='$data[no]' and replys='$d[no]' order by regdate asc";
-            $r_2= mysql_query($q_2, $connect);
-            while($d_2=mysql_fetch_array($r_2)) {
+            $r_2= mysqli_query($connect, $q_2);
+            while($d_2=mysqli_fetch_array($r_2)) {
             ?>
 
               <td colspan='3'>
                 <table id="reply_view_table" border="0">
                   <tr>
                     <td rowspan="2" align='center' style="color: #20cbd3; font-weight: bold;" width="10%">└</td>
-                    <td class="reply_view_name"><?=$d_2[name]?>(<?=$d_2[year]?>기)</td>
-                    <td class="reply_view_date"><?
-                    echo $d_2_Y= substr($d_2[regdate],0,4)."-";
-                    echo $d_2_m= substr($d_2[regdate],4,2)."-";
-                    echo $d_2_d= substr($d_2[regdate],6,2)."&nbsp;(";
-                    echo $d_2_h= substr($d_2[regdate],8,2).":";
-                    echo $d_2_i= substr($d_2[regdate],10,2).")";
+                    <td class="reply_view_name"><?=$d_2['name']?>(<?=$d_2['year']?>기)</td>
+                    <td class="reply_view_date"><?php
+                    echo $d_2_Y= substr($d_2['regdate'],0,4)."-";
+                    echo $d_2_m= substr($d_2['regdate'],4,2)."-";
+                    echo $d_2_d= substr($d_2['regdate'],6,2)."&nbsp;(";
+                    echo $d_2_h= substr($d_2['regdate'],8,2).":";
+                    echo $d_2_i= substr($d_2['regdate'],10,2).")";
                     ?></td>
                   </tr>
                   <tr>
                     <td class="reply_view_memo" colspan="3">
-                      <span ><?=$d_2[memo]?></span>
+                      <span ><?=$d_2['memo']?></span>
                       <div align="right">
-                        <a href="comment_del.php?bbsname=<?=$bbsname?>&comment_no=<?=$d_2[no]?>&no_s=<?=$data[no]?>&bbs_no=<?=$d_2[bbs_no]?>&replys=<?=$d_2[replys]?>&reply_rr=rr" onfocus="this.blur()"  style="font-size: 12px; text-decoration: none; padding-right: 5px;">
+                        <a href="comment_del.php?bbsname=<?=$bbsname?>&comment_no=<?=$d_2['no']?>&no_s=<?=$data['no']?>&bbs_no=<?=$d_2['bbs_no']?>&replys=<?=$d_2['replys']?>&reply_rr=rr" onfocus="this.blur()"  style="font-size: 12px; text-decoration: none; padding-right: 5px;">
                           <font color='#20cbd3' onclick="return confirm('삭제하시겠습니까?')">삭제</font>
                         </a>
                       </div>
@@ -414,20 +413,20 @@
                 </table>
               </td>
 
-            <?	}
+            <?php	}
             //////////////  코맨트 (답글-출력) [끝]///////////// ?>
 
 
 
             <? /// 코맨트 (답글-입력) ///
-             if($re_wt=='Y' and $comment_no==$d[no]){
+             if($re_wt=='Y' and $comment_no==$d['no']){
             ?>
             <table id="reply_write_table" border="0" cellspacing='0' cellpadding='0'>
               <form name='replys' action='comment_write.php' method='post'>
-                <input type="hidden" name='id' value='<?=$data[id]?>'>
+                <input type="hidden" name='id' value='<?=$data['id']?>'>
                 <input type="hidden" name='bbsname' value='<?=$bbsname?>'>
-                <input type="hidden" name='bbs_no' value='<?=$data[no]?>'>
-                <input type="hidden" name='replys' value='<?=$d[no]?>'>
+                <input type="hidden" name='bbs_no' value='<?=$data['no']?>'>
+                <input type="hidden" name='replys' value='<?=$d['no']?>'>
 
               <tr>
                 <td id='lo_reply_2' align='center' width="15%">
@@ -445,24 +444,24 @@
               </form>
             </table>
 
-            <?
+            <?php
             	}
             } /// 코맨트 (답글-입력) [끝] ///?>
              </table>
 
-            <? /////////// 코맨트 (입력) ////////////
-              if($member[id]){  //회원아이디가 있으면 실행
+            <?php /////////// 코맨트 (입력) ////////////
+              if($member['id']) {  //회원아이디가 있으면 실행
             ?>
               <table id="comment_write_table" border='0' cellspacing='0' cellpadding='0'>
                 <tr>
                   <form name='replys' action='comment_write.php' method='post'>
-                    <input type="hidden" name='bbs_no' value='<?=$data[no]?>'>
+                    <input type="hidden" name='bbs_no' value='<?=$data['no']?>'>
                     <input type="hidden" name='replys' value='0'>
-                    <input type="hidden" name='id' value='<?=$data[id]?>'>
+                    <input type="hidden" name='id' value='<?=$data['id']?>'>
                     <input type="hidden" name='bbsname' value='<?=$bbsname?>'>
 
                   <td class="comment_write_name" width="15%" align='center'>
-                    <?=$member[name]?><br>(<?=$member[year]?>기)
+                    <?=$member['name']?><br>(<?=$member['year']?>기)
                   </td>
 
                   <td width="70%" align='center'>
@@ -475,7 +474,7 @@
                   </form>
                 </tr>
               </table>
-            	<?} //회원아이디가 있으면 여기까지?>
+            	<?php } //회원아이디가 있으면 여기까지?>
              <!---//////////코맨트 (입력) [끝] //////////--->
 
             </td>

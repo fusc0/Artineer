@@ -1,16 +1,17 @@
-<?header('content-type:text/html; charset=UTF-8');
+<?php
+header('content-type:text/html; charset=UTF-8');
 
- $id = $_POST[id];
- $bbsname = $_POST[bbsname];
- $bbs_no = $_POST[bbs_no];
- $replys = $_POST[replys];
- $memo = $_POST[memo];
+ $id = $_POST['id'];
+ $bbsname = $_POST['bbsname'];
+ $bbs_no = $_POST['bbs_no'];
+ $replys = $_POST['replys'];
+ $memo = $_POST['memo'];
 
  include ('./db_connect.php');
  $connect = dbconn();
  $member = member();
 
- if(!$member[id]) Error('로그인 후 이용하세요.');
+ if(!$member['id']) Error('로그인 후 이용하세요.');
  if(!$memo) Error('내용을 입력하세요.');
  if(!$bbs_no) Error('접근이 잘못되었습니다.');
 
@@ -18,7 +19,7 @@
 
  $query = "INSERT INTO comment(bbsname, bbs_no, id, name, year, memo, replys, regdate)
  VALUES('$bbsname', '$bbs_no', '$member[id]', '$member[name]', '$member[year]', '$memo', '$replys', '$regdate')";
- mysql_query($query, $connect);
+ mysqli_query($connect, $query);
 
   if($bbsname == 'notice') {
     $query = "update notice set comment=comment+1 where no='$bbs_no'";
@@ -36,7 +37,7 @@
     $query = "update reference set comment=comment+1 where no='$bbs_no'";
   }
 
-  mysql_query($query, $connect);
+  mysqli_query($connect, $query);
 ?>
 
 <script>

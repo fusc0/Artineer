@@ -1,17 +1,18 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-if(!$member[id]) Error("로그인 후 이용해 주세요.");
+if(!$member['id']) Error("로그인 후 이용해 주세요.");
 
-$no = $_GET[no];
-$id = $_GET[id];
+$no = $_GET['no'];
+$id = $_GET['id'];
 
-$bbsname = $_GET[bbsname];
+$bbsname = $_GET['bbsname'];
 
-if($member[id] != $id) Error("권한이 없습니다.");
+if($member['id'] != $id) Error("권한이 없습니다.");
 
 if($bbsname == 'notice') {
   $query = "delete from notice where no='$no' and id='$member[id]'";
@@ -44,57 +45,57 @@ if($bbsname == 'notice') {
 }
 
 
-$result = mysql_query($sql, $connect);
-$data = mysql_fetch_array($result);
+$result = mysqli_query($connect, $sql);
+$data = mysqli_fetch_array($result);
 
-if($data[file]) {
-  $del_file = './data/'.$data[file];
-  if($data[file] && is_file($del_file)) unlink($del_file);
+if($data['file']) {
+  $del_file = './data/'.$data['file'];
+  if($data['file'] && is_file($del_file)) unlink($del_file);
 }
 
-mysql_query($query, $connect);
-mysql_query($comment, $connect);
+mysqli_query($connect, $query);
+mysqli_query($connect, $comment);
 ?>
 
-<?if($bbsname == 'notice') { ?>
+<?php if($bbsname == 'notice') { ?>
   <script>
   window.alert('삭제되었습니다.');
   location.href = './notice.php';
   </script>
-  <?}?>
-  <?if($bbsname == 'minutes') { ?>
+  <?php }?>
+  <?php if($bbsname == 'minutes') { ?>
     <script>
     window.alert('삭제되었습니다.');
     location.href = './minutes.php';
     </script>
-    <?}?>
-    <?if($bbsname == 'reference') { ?>
+    <?php }?>
+    <?php if($bbsname == 'reference') { ?>
       <script>
       window.alert('삭제되었습니다.');
       location.href = './reference.php';
       </script>
-      <?}?>
-      <?if($bbsname == 'hello') { ?>
+      <?php }?>
+      <?php if($bbsname == 'hello') { ?>
         <script>
         window.alert('삭제되었습니다.');
         location.href = './hello.php';
         </script>
-        <?}?>
-        <?if($bbsname == 'project') { ?>
+        <?php }?>
+        <?php if($bbsname == 'project') { ?>
           <script>
           window.alert('삭제되었습니다.');
           location.href = './project.php';
           </script>
-          <?}?>
-          <?if($bbsname == 'gallery') { ?>
+          <?php }?>
+          <?php if($bbsname == 'gallery') { ?>
             <script>
             window.alert('삭제되었습니다.');
             location.href = './gallery.php';
             </script>
-            <?}?>
-            <?if($bbsname == 'exam') { ?>
+            <?php }?>
+            <?php if($bbsname == 'exam') { ?>
               <script>
               window.alert('삭제되었습니다.');
               location.href = './exam.php';
               </script>
-              <?}?>
+              <?php }?>

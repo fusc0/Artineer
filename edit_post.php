@@ -1,17 +1,18 @@
-<?header("content-type:text/html; charset=UTF-8");
+<?php
+header("content-type:text/html; charset=UTF-8");
 
 include("./db_connect.php");
 $connect = dbconn();
 $member = member();
 
-if(!$member[id]) Error("로그인 후 이용해 주세요.");
+if(!$member['id']) Error("로그인 후 이용해 주세요.");
 
-$id = $member[id];
-$subject = $_POST[subject];
-$story = $_POST[story];
+$id = $member['id'];
+$subject = $_POST['subject'];
+$story = $_POST['story'];
 
-$no = $_POST[no];
-$bbsname = $_POST[bbsname];
+$no = $_POST['no'];
+$bbsname = $_POST['bbsname'];
 
 if($_FILES['file']['size'][0] != 0) {
   $file_count = count($_FILES['file']['name']);
@@ -77,7 +78,7 @@ if($_FILES['file']['size'][0] != 0) {
     file = '$files'
     where no = '$no' ";
   }
-  mysql_query($query, $connect);
+  mysqli_query($connect, $query);
 }
 
 if(!$subject) Error('제목을 입력하세요.');
@@ -133,50 +134,50 @@ else if($bbsname == 'exam') {
   ";
 }
 
-mysql_query("set names utf8", $connect);
-mysql_query($query, $connect);
-mysql_close();
+mysqli_query($connect, "set names utf8");
+mysqli_query($connect, $query);
+mysqli_close($connect);
 ?>
 
-<?if($bbsname == 'notice') { ?>
+<?php if($bbsname == 'notice') { ?>
   <script>
   window.alert('글 수정 완료!');
   location.href = './view.php?no=<?=$no?>&id=<?=$id?>&bbsname=<?=$bbsname?>';
   </script>
-  <?}?>
-  <?if($bbsname == 'reference') {?>
+  <?php }?>
+  <?php if($bbsname == 'reference') {?>
     <script>
     window.alert('글 수정 완료!');
     location.href = './view.php?no=<?=$no?>&id=<?=$id?>&bbsname=<?=$bbsname?>';
     </script>
-    <?}?>
-    <?if($bbsname == 'minutes') {?>
+    <?php }?>
+    <?php if($bbsname == 'minutes') {?>
       <script>
       window.alert('글 수정 완료!');
       location.href = './view.php?no=<?=$no?>&id=<?=$id?>&bbsname=<?=$bbsname?>';
       </script>
-      <?}?>
-      <?if($bbsname == 'hello') {?>
+      <?php }?>
+      <?php if($bbsname == 'hello') {?>
         <script>
         window.alert('글 수정 완료!');
-        location.href = './view.php?no=<?=$no?>&id=<?=$data[id]?>&bbsname=<?=$bbsname?>';
+        location.href = './view.php?no=<?=$no?>&id=<?=$data['id']?>&bbsname=<?=$bbsname?>';
         </script>
-        <?}?>
-        <?if($bbsname == 'project') {?>
+        <?php }?>
+        <?php if($bbsname == 'project') {?>
           <script>
           window.alert('글 수정 완료!');
-          location.href = './view.php?no=<?=$no?>&id=<?=$data[id]?>&bbsname=<?=$bbsname?>';
+          location.href = './view.php?no=<?=$no?>&id=<?=$data['id']?>&bbsname=<?=$bbsname?>';
           </script>
-          <?}?>
-          <?if($bbsname == 'gallery') {?>
+          <?php }?>
+          <?php if($bbsname == 'gallery') {?>
             <script>
             window.alert('글 수정 완료!');
-            location.href = './view.php?no=<?=$no?>&id=<?=$data[id]?>&bbsname=<?=$bbsname?>';
+            location.href = './view.php?no=<?=$no?>&id=<?=$data['id']?>&bbsname=<?=$bbsname?>';
             </script>
-            <?}?>
-            <?if($bbsname == 'exam') {?>
+            <?php }?>
+            <?php if($bbsname == 'exam') {?>
               <script>
               window.alert('글 수정 완료!');
-              location.href = './view.php?no=<?=$no?>&id=<?=$data[id]?>&bbsname=<?=$bbsname?>';
+              location.href = './view.php?no=<?=$no?>&id=<?=$data['id']?>&bbsname=<?=$bbsname?>';
               </script>
-              <?}?>
+              <?php }?>

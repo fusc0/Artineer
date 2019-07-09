@@ -13,7 +13,7 @@ table, tr, td{margin:0px;}
 </head>
 
 <div class='list'>
-<?
+<?php
 //총게시물                 $totals
 //한페이지 나타날 게시글수 $view_total
 $rr=ceil($totals/$view_total);

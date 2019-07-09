@@ -163,7 +163,7 @@
                       </div>
                     </div>
                     <input class="join_row" type='text' name='addr' size='15' placeholder="주소">
-                    <input class="join_row" type="text" name="year" size="1" placeholder="기수 (숫자만 입력, 2017년 가입자는 1기, 2018년 가입자는 2기)">
+                    <input class="join_row" type="text" name="year" size="1" placeholder="기수 (숫자만 입력, 2019년 가입자는 3기, 2020년 가입자는 4기)">
                   </div>
 
                   <div class="register_btn">
